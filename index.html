@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Villa Alemã™ - Delivery de Bebidas</title>
+
+    <!-- mammoth.js — leitura do .docx -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+    <style>
+        /* ============================================================
+           CÓDIGO BASE — PRESERVADO INTEGRALMENTE
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00B37E 0%, #00875F 100%);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #FF3B30;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .search-bar {
+            background: white;
+            margin: 15px 20px;
+            padding: 12px 15px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .banner {
+            background: linear-gradient(135deg, #00B37E 0%, #00875F 100%);
+            margin: 0 20px 20px;
+            padding: 30px 20px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: '🍺';
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.1;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .banner h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .banner p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            padding: 0 20px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .view-all {
+            color: #00B37E;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .promo-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #FF3B30;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            min-height: 35px;
+        }
+
+        .product-size {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .product-prices {
+            margin-bottom: 10px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .current-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00B37E;
+        }
+
+        .add-button {
+            width: 100%;
+            background: #00B37E;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .add-button:hover {
+            background: #00875F;
+        }
+
+        .quantity-controls {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .quantity-controls.active {
+            display: flex;
+        }
+
+        .qty-btn {
+            background: #00B37E;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-display {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #555;
+            text-decoration: none;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #00B37E;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .cart-modal.active {
+            display: block;
+        }
+
+        .cart-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #00B37E;
+            font-weight: bold;
+        }
+
+        .cart-summary {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .summary-row.total {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00B37E;
+        }
+
+        .checkout-button {
+            width: 100%;
+            background: #00B37E;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+        }
+
+        .empty-cart-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+        }
+
+        .promo-banner {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: #1a1a1a;
+        }
+
+        .promo-banner h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 24px;
+        }
+
+        .social-icons a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (min-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* ============================================================
+           COMPLEMENTO — ISOLADO, SEM CONFLITO
+           Prefixo: va- (Villa Alemã)
+           ============================================================ */
+
+        /* --- OVERLAY MAIORIDADE --- */
+        .va-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99990;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .va-overlay.va-hidden { display: none !important; }
+
+        .va-balloon {
+            background: white;
+            border-radius: 20px;
+            padding: 36px 32px;
+            max-width: 380px;
+            width: 90%;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+            position: absolute;
+            transition: transform 0.45s cubic-bezier(.77,0,.18,1), opacity 0.35s ease;
+        }
+        .va-balloon.slide-left {
+            transform: translateX(-130%) scale(0.9) !important;
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+        .va-balloon-2 { display: none; }
+        .va-balloon-2.active {
+            display: block;
+            animation: vaBalloonIn 0.45s cubic-bezier(.77,0,.18,1) forwards;
+        }
+        @keyframes vaBalloonIn {
+            from { transform: translateX(120%) scale(0.9); opacity: 0; }
+            to   { transform: translateX(0) scale(1);     opacity: 1; }
+        }
+
+        .va-balloon h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        .va-balloon p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 22px;
+            line-height: 1.5;
+        }
+        .va-btn-row {
+            display: flex;
+            gap: 10px;
+        }
+        /* reutiliza add-button do base para o SIM */
+        .va-btn-sim {
+            flex: 1;
+            background: #00B37E;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .va-btn-sim:hover { background: #00875F; }
+        .va-btn-nao {
+            flex: 1;
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .va-btn-nao:hover { background: #e0e0e0; }
+
+        .va-balloon-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .va-close-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #aaa;
+            padding: 4px;
+            line-height: 1;
+            font-size: 20px;
+            transition: color 0.2s;
+        }
+        .va-close-btn:hover { color: #333; }
+
+        /* campos de input — harmonizados com search-bar do base */
+        .va-field {
+            width: 100%;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 11px 13px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+            background: #fafafa;
+            font-family: inherit;
+        }
+        .va-field:focus { border-color: #00B37E; background: white; }
+        .va-fields { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+        .va-city-hint { font-size: 12px; color: #00875F; min-height: 16px; margin: -4px 0 4px 2px; }
+        .va-field-note { font-size: 11px; color: #aaa; margin: -4px 0 4px 2px; }
+
+        .va-btn-confirm {
+            width: 100%;
+            background: #00B37E;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 8px;
+        }
+        .va-btn-confirm:hover { background: #00875F; }
+        .va-btn-anon {
+            width: 100%;
+            background: none;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 13px;
+            color: #888;
+            cursor: pointer;
+            font-family: inherit;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .va-btn-anon:hover { border-color: #aaa; color: #333; }
+
+        /* --- PAINEL "VOCÊ" (perfil lateral) --- */
+        .va-profile-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 9998;
+            display: none;
+        }
+        .va-profile-bg.open { display: block; }
+
+        .va-profile-panel {
+            position: fixed;
+            top: 0; right: -340px;
+            width: 320px;
+            max-width: 92vw;
+            height: 100dvh;
+            background: white;
+            z-index: 9999;
+            box-shadow: -6px 0 30px rgba(0,0,0,0.15);
+            transition: right 0.35s cubic-bezier(.77,0,.18,1);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 20px;
+            box-sizing: border-box;
+        }
+        .va-profile-panel.open { right: 0; }
+
+        .va-profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #eee;
+        }
+        .va-profile-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+        }
+        .va-profile-save {
+            width: 100%;
+            background: #00B37E;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 6px;
+            font-family: inherit;
+        }
+        .va-profile-save:hover { background: #00875F; }
+        .va-profile-label {
+            font-size: 11px;
+            color: #888;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .va-profile-fields { display: flex; flex-direction: column; gap: 14px; flex: 1; }
+
+        /* --- CALENDÁRIO (categoria máquina) --- */
+        .va-date-wrap { margin-top: 10px; position: relative; }
+
+        /* quando aberto, o wrapper cresce no fluxo e empurra o botão */
+        .va-date-wrap.cal-open { padding-bottom: 0; }
+        .va-date-wrap.cal-open .va-calendar {
+            position: relative;
+            top: auto; left: auto; right: auto;
+            margin-top: 6px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+        }
+
+        .va-date-trigger {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 9px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #aaa;
+            background: #fafafa;
+            transition: border-color 0.2s;
+            user-select: none;
+            font-family: inherit;
+        }
+        .va-date-trigger.picked { color: #1a1a1a; border-color: #00B37E; background: white; }
+        .va-date-trigger:hover { border-color: #00B37E; }
+        .va-date-trigger.error { border-color: #FF3B30; animation: vaShake 0.35s; }
+        @keyframes vaShake {
+            0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)}
+        }
+
+        .va-calendar {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0; right: 0;
+            background: white;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 15px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+            z-index: 500;
+            padding: 12px;
+            display: none;
+            min-width: 240px;
+        }
+        .va-calendar.open {
+            display: block;
+            animation: vaCalIn 0.15s ease;
+        }
+        @keyframes vaCalIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
+
+        .va-cal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .va-cal-nav {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 8px;
+            color: #444;
+            font-size: 16px;
+            line-height: 1;
+            transition: background 0.15s;
+        }
+        .va-cal-nav:hover { background: #f0f0f0; }
+        .va-cal-title { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+
+        .va-cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+        .va-cal-dname {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: #bbb;
+            padding: 2px 0 5px;
+            text-transform: uppercase;
+        }
+        .va-cal-day {
+            text-align: center;
+            padding: 6px 2px;
+            font-size: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #333;
+            transition: background 0.12s;
+        }
+        .va-cal-day:hover:not(.blocked):not(.past):not(.empty) { background: #e8f9f3; }
+        .va-cal-day.today { color: #00B37E; font-weight: 700; }
+        .va-cal-day.picked { background: #00B37E !important; color: white !important; font-weight: 700; }
+        .va-cal-day.blocked { color: #e0e0e0 !important; cursor: not-allowed; text-decoration: line-through; pointer-events: none; }
+        .va-cal-day.past { color: #ddd; cursor: not-allowed; pointer-events: none; }
+        .va-cal-day.empty { cursor: default; pointer-events: none; }
+
+        /* indisponível */
+        .va-unavailable {
+            font-size: 12px;
+            color: #FF3B30;
+            font-weight: 600;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* skeleton loading */
+        .va-skeleton {
+            background: linear-gradient(90deg, #f5f5f5 25%, #ebebeb 50%, #f5f5f5 75%);
+            background-size: 200% 100%;
+            animation: vaSkel 1.4s infinite;
+            border-radius: 15px;
+            height: 220px;
+        }
+        @keyframes vaSkel { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+        /* seção de máquinas */
+        .va-machines-section { margin-bottom: 30px; }
+
+        /* calendário sempre absolute — nunca fixed */
+        @media (max-width: 480px) {
+            .va-calendar {
+                min-width: 0;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         OVERLAY — MAIORIDADE (ETAPA 1) + IDENTIFICAÇÃO (ETAPA 2)
+         ============================================================ -->
+    <div class="va-overlay va-hidden" id="vaOverlay">
+
+        <!-- Balão 1: Maioridade -->
+        <div class="va-balloon" id="vaBalloon1">
+            <h2>Você já completou 18 anos?</h2>
+            <p>Este site contém bebidas alcoólicas. O acesso é permitido apenas para maiores de 18 anos.</p>
+            <div class="va-btn-row">
+                <button class="va-btn-sim" id="vaBtnSim">Sim, tenho 18+</button>
+                <button class="va-btn-nao" id="vaBtnNao">Não</button>
+            </div>
+        </div>
+
+        <!-- Balão 2: Identificação -->
+        <div class="va-balloon va-balloon-2" id="vaBalloon2">
+            <div class="va-balloon-top">
+                <h2 style="margin:0">Olá! Quem é você?</h2>
+                <button class="va-close-btn" id="vaBtnFechar" title="Continuar anônimo">✕</button>
+            </div>
+            <p>Seus dados personalizam o pedido. Opcional!</p>
+            <div class="va-fields">
+                <div>
+                    <input class="va-field" id="vaInputNome" type="text" placeholder="Seu primeiro nome" autocomplete="given-name" />
+                </div>
+                <div>
+                    <input class="va-field" id="vaInputCEP" type="text" placeholder="CEP (somente números)" maxlength="9" inputmode="numeric" />
+                    <div class="va-city-hint" id="vaCityHint"></div>
+                    <div class="va-field-note">Identificamos sua cidade para o pedido</div>
+                </div>
+            </div>
+            <button class="va-btn-confirm" id="vaBtnConfirm">Confirmar e entrar</button>
+            <button class="va-btn-anon"    id="vaBtnAnon">Continuar anônimo</button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         PAINEL "VOCÊ" — editar perfil
+         ============================================================ -->
+    <div class="va-profile-bg" id="vaProfileBg"></div>
+    <div class="va-profile-panel" id="vaProfilePanel">
+        <div class="va-profile-header">
+            <h3>👤 Você</h3>
+            <button class="va-close-btn" id="vaProfileClose">✕</button>
+        </div>
+        <div class="va-profile-fields">
+            <div>
+                <div class="va-profile-label">Nome</div>
+                <input class="va-field" id="vaProfileNome" type="text" placeholder="Seu primeiro nome" />
+            </div>
+            <div>
+                <div class="va-profile-label">CEP</div>
+                <input class="va-field" id="vaProfileCEP" type="text" placeholder="CEP" maxlength="9" inputmode="numeric" />
+                <div class="va-city-hint" id="vaProfileCityHint"></div>
+            </div>
+            <button class="va-profile-save" id="vaProfileSave">Salvar</button>
+        </div>
+    </div>
+
+    <!-- Header (original) -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🍺 Villa Alemã™</div>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒
+                <span class="cart-badge" id="cartBadge">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Bar (original) -->
+    <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" placeholder="Buscar bebidas..." id="searchInput" onkeyup="searchProducts()">
+    </div>
+
+    <!-- Banner (original) -->
+    <div class="banner">
+        <h2>DIA DOS PAIS</h2>
+        <p>Descontos especiais em bebidas selecionadas!</p>
+    </div>
+
+    <!-- Main Content (original) -->
+    <div id="mainContent">
+        <!-- Destaque -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Leve mais e pague menos</h2>
+                <a href="#" class="view-all">Ver tudo →</a>
+            </div>
+            <div class="products-grid" id="featuredProducts">
+                <!-- skeleton enquanto carrega -->
+                <div class="va-skeleton"></div>
+                <div class="va-skeleton"></div>
+            </div>
+        </div>
+
+        <!-- Promo Banner (original) -->
+        <div class="promo-banner">
+            <h3>🎉 Frete Grátis</h3>
+            <p>Em compras acima de R$ 50,00</p>
+        </div>
+
+        <!-- Promoção -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Produtos em promoção</h2>
+                <a href="#" class="view-all">Ver tudo →</a>
+            </div>
+            <div class="products-grid" id="promoProducts">
+                <div class="va-skeleton"></div>
+                <div class="va-skeleton"></div>
+            </div>
+        </div>
+
+        <!-- Outros -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Outros produtos</h2>
+                <a href="#" class="view-all">Ver tudo →</a>
+            </div>
+            <div class="products-grid" id="otherProducts">
+                <div class="va-skeleton"></div>
+                <div class="va-skeleton"></div>
+            </div>
+        </div>
+
+        <!-- Máquinas (seção injetada dinamicamente) -->
+        <div class="section va-machines-section" id="machinesSection" style="display:none;">
+            <div class="section-header">
+                <h2 class="section-title">Máquinas para aluguel</h2>
+            </div>
+            <div class="products-grid" id="machineProducts"></div>
+        </div>
+    </div>
+
+    <!-- Footer (original — preservado) -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>🍺 Villa Alemã™</h4>
+                <p style="color: #999; font-size: 14px; margin-top: 5px;">As melhores bebidas na sua porta<br />R. C-6, 111 - Cristiano de Carvalho, Barretos - SP, 14781-442, Brasil<br /><br /><a href="https://wa.me/5517981132627?text=Oi,+venho+do+site+Villa+Alemã™"><font style="color:#777;text-decoration:none">17 98113-2627</font></a></p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Rápidos</h4>
+                <div class="footer-links">
+                    <a href="#">Sobre Nós</a>
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Contato</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Redes Sociais</h4>
+                <div class="social-icons">
+                    <a href="#">📘</a>
+                    <a href="#">📷</a>
+                    <a href="#">🐦</a>
+                    <a href="#">💬</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <p style="color: #777; font-size: 12px; text-align: center; margin-top: 20px;">
+                    © 2026 Villa Alemã™. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (original — "Perfil" → "Você" apenas no label) -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span>Início</span>
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">🔍</span>
+            <span>Buscar</span>
+        </a>
+        <a href="#" class="nav-item" onclick="toggleCart(); return false;">
+            <span class="nav-icon">🛒</span>
+            <span>Carrinho</span>
+        </a>
+        <a href="#" class="nav-item" onclick="vaOpenProfile(); return false;">
+            <span class="nav-icon">👤</span>
+            <span>Você</span>
+        </a>
+    </div>
+
+    <!-- Cart Modal (original — estrutura preservada) -->
+    <div class="cart-modal" id="cartModal" onclick="closeCartOnBackdrop(event)">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Meu Carrinho</h2>
+                <button class="close-cart" onclick="toggleCart()">✕</button>
+            </div>
+            <div id="cartItems"></div>
+            <div class="cart-summary" id="cartSummary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R$ 0,00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Entrega:</span>
+                    <span id="delivery">R$ 10,00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="total">R$ 0,00</span>
+                </div>
+                <!-- checkout() agora redireciona para WhatsApp -->
+                <button class="checkout-button" onclick="checkout()">
+                    Finalizar Pedido via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SCRIPT — BASE ORIGINAL + COMPLEMENTO INTEGRADO
+         ============================================================ -->
+    <script>
+    // ================================================================
+    // CONFIGURAÇÃO
+    // ================================================================
+    const DOCX_URL = "URL_AQUI"; // << cole aqui a URL pública do Google Drive
+    // Exemplo: "https://drive.google.com/uc?export=download&id=SEU_FILE_ID"
+    const WHATSAPP = "5517981132627";
+    const FETCH_TIMEOUT = 8000;
+
+    // ================================================================
+    // ESTADO
+    // ================================================================
+    const VA = {
+        user: {
+            name:        localStorage.getItem('va_name')        || '',
+            cep:         localStorage.getItem('va_cep')         || '',
+            city:        localStorage.getItem('va_city')        || '',
+            anonymous:   localStorage.getItem('va_anon')        === 'true',
+            ageVerified: localStorage.getItem('va_age')         === 'true',
+        },
+        system: { docxLoaded: false, fallbackMode: false },
+        cal: {},    // { productId: { year, month, selectedDates: [] } }
+    };
+
+    // produtos ativos (vindos do DOCX ou fallback)
+    let products = [];
+
+    // carrinho original
+    let cart = [];
+
+    // ================================================================
+    // PERSISTÊNCIA
+    // ================================================================
+    function vaSave() {
+        localStorage.setItem('va_name', VA.user.name);
+        localStorage.setItem('va_cep',  VA.user.cep);
+        localStorage.setItem('va_city', VA.user.city);
+        localStorage.setItem('va_anon', VA.user.anonymous);
+        localStorage.setItem('va_age',  VA.user.ageVerified);
+    }
+
+    // ================================================================
+    // UTILITÁRIOS
+    // ================================================================
+    function fmtBRL(v) { return 'R$ ' + Number(v).toFixed(2).replace('.', ','); }
+    function fmtDate(iso) {
+        if (!iso) return '';
+        const [y, m, d] = iso.split('-');
+        return `${d}/${m}/${y}`;
+    }
+    function todayISO() { return new Date().toISOString().split('T')[0]; }
+    function isURL(s) { return /^https?:\/\//i.test(s); }
+    function maskCEP(el) {
+        let v = el.value.replace(/\D/g, '');
+        if (v.length > 5) v = v.slice(0,5) + '-' + v.slice(5,8);
+        el.value = v;
+    }
+    function fetchTimeout(url, ms) {
+        return Promise.race([
+            fetch(url),
+            new Promise((_,r) => setTimeout(() => r(new Error('timeout')), ms))
+        ]);
+    }
+    async function fetchCity(cep) {
+        const c = cep.replace(/\D/g,'');
+        if (c.length !== 8) return '';
+        try {
+            const r = await fetch(`https://viacep.com.br/ws/${c}/json/`);
+            const d = await r.json();
+            return d.erro ? '' : (d.localidade || '');
+        } catch { return ''; }
+    }
+
+    // ================================================================
+    // GATE DE MAIORIDADE
+    // ================================================================
+    function vaInitAgeGate() {
+        const overlay  = document.getElementById('vaOverlay');
+        const b1       = document.getElementById('vaBalloon1');
+        const b2       = document.getElementById('vaBalloon2');
+        const cityHint = document.getElementById('vaCityHint');
+
+        if (VA.user.ageVerified) {
+            overlay.classList.add('va-hidden');
+            return;
+        }
+        overlay.classList.remove('va-hidden');
+
+        document.getElementById('vaBtnSim').addEventListener('click', () => {
+            b1.classList.add('slide-left');
+            setTimeout(() => { b2.style.display='block'; b2.classList.add('active'); }, 320);
+        });
+
+        document.getElementById('vaBtnNao').addEventListener('click', () => {
+            window.location.href = 'https://www.bibliaonline.com.br/nvi/1sm/17';
+        });
+
+        const cepEl = document.getElementById('vaInputCEP');
+        cepEl.addEventListener('input', function() {
+            maskCEP(this);
+            if (this.value.replace(/\D/g,'').length === 8) {
+                cityHint.textContent = 'Buscando...';
+                fetchCity(this.value).then(c => {
+                    cityHint.textContent = c ? `📍 ${c}` : '';
+                    VA.user.city = c;
+                });
+            } else { cityHint.textContent = ''; }
+        });
+
+        document.getElementById('vaBtnConfirm').addEventListener('click', () => {
+            VA.user.name = document.getElementById('vaInputNome').value.trim();
+            VA.user.cep  = cepEl.value.trim();
+            VA.user.anonymous   = false;
+            VA.user.ageVerified = true;
+            vaSave();
+            overlay.classList.add('va-hidden');
+        });
+
+        const finishAnon = () => {
+            VA.user.anonymous   = true;
+            VA.user.ageVerified = true;
+            vaSave();
+            overlay.classList.add('va-hidden');
+        };
+        document.getElementById('vaBtnAnon').addEventListener('click', finishAnon);
+        document.getElementById('vaBtnFechar').addEventListener('click', finishAnon);
+    }
+
+    // ================================================================
+    // PAINEL "VOCÊ"
+    // ================================================================
+    function vaOpenProfile() {
+        document.getElementById('vaProfileNome').value = VA.user.name;
+        document.getElementById('vaProfileCEP').value  = VA.user.cep;
+        document.getElementById('vaProfileCityHint').textContent =
+            VA.user.city ? `📍 ${VA.user.city}` : '';
+        document.getElementById('vaProfilePanel').classList.add('open');
+        document.getElementById('vaProfileBg').classList.add('open');
+    }
+    function vaCloseProfile() {
+        document.getElementById('vaProfilePanel').classList.remove('open');
+        document.getElementById('vaProfileBg').classList.remove('open');
+    }
+    function vaInitProfile() {
+        document.getElementById('vaProfileClose').addEventListener('click', vaCloseProfile);
+        document.getElementById('vaProfileBg').addEventListener('click', vaCloseProfile);
+
+        const cepEl = document.getElementById('vaProfileCEP');
+        cepEl.addEventListener('input', function() {
+            maskCEP(this);
+            if (this.value.replace(/\D/g,'').length === 8) {
+                fetchCity(this.value).then(c => {
+                    document.getElementById('vaProfileCityHint').textContent = c ? `📍 ${c}` : '';
+                    VA.user.city = c;
+                });
+            }
+        });
+
+        document.getElementById('vaProfileSave').addEventListener('click', () => {
+            VA.user.name = document.getElementById('vaProfileNome').value.trim();
+            VA.user.cep  = document.getElementById('vaProfileCEP').value.trim();
+            vaSave();
+            vaCloseProfile();
+            showToast('Perfil salvo!');
+        });
+    }
+
+    // ================================================================
+    // LEITURA DO .DOCX
+    // ================================================================
+    async function vaLoadDocx() {
+        try {
+            if (!DOCX_URL || DOCX_URL === 'URL_AQUI') throw new Error('URL não configurada');
+            const res = await fetchTimeout(DOCX_URL, FETCH_TIMEOUT);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const buf = await res.arrayBuffer();
+            if (!window.mammoth) throw new Error('mammoth.js ausente');
+            const { value } = await mammoth.convertToHtml({ arrayBuffer: buf });
+            if (!value) throw new Error('DOCX vazio');
+            vaParseTable(value);
+            VA.system.docxLoaded = true;
+            try { localStorage.setItem('va_cache', JSON.stringify(products)); } catch {}
+        } catch (err) {
+            console.error('[Villa Alemã] DOCX falhou, ativando fallback:', err.message);
+            vaFallback();
+        }
+    }
+
+    function vaParseTable(html) {
+        const div  = document.createElement('div');
+        div.innerHTML = html;
+        const rows = div.querySelectorAll('table tr');
+        if (rows.length <= 1) throw new Error('Tabela inválida');
+
+        const parsed = [];
+        rows.forEach((row, i) => {
+            if (i === 0) return;
+            const cells = row.querySelectorAll('td');
+            if (cells.length < 5) return;
+            const name    = cells[0].textContent.trim();
+            const cat     = cells[1].textContent.trim().toLowerCase();
+            const price   = parseFloat(cells[2].textContent.trim().replace(',','.'));
+            const stock   = parseInt(cells[3].textContent.trim(), 10);
+            const image   = cells[4].textContent.trim();
+            const blocked = cells[5]
+                ? cells[5].textContent.split(',').map(d=>d.trim()).filter(Boolean)
+                : [];
+            if (!name || isNaN(price) || isNaN(stock)) return;
+            parsed.push({ id: 100 + i, name, size: '', price, stock, image, category: cat,
+                          promo: false, blockedDates: blocked });
+        });
+
+        if (!parsed.length) throw new Error('Sem produtos');
+        products = parsed;
+        renderProducts();
+    }
+
+    // ================================================================
+    // FALLBACK
+    // ================================================================
+    function vaFallback() {
+        VA.system.fallbackMode = true;
+
+        // tenta cache local primeiro
+        try {
+            const c = localStorage.getItem('va_cache');
+            if (c) { products = JSON.parse(c); renderProducts(); return; }
+        } catch {}
+
+        // fallback fixo — espelha exatamente os produtos do código base
+        products = [
+            { id:1,  name:'Heineken Lata',       size:'350ml', price:4.99,  oldPrice:6.99, image:'🍺', category:'destaque', promo:true,  blockedDates:[] },
+            { id:2,  name:'Stella Artois',        size:'275ml', price:5.49,  oldPrice:7.49, image:'🍺', category:'destaque', promo:true,  blockedDates:[] },
+            { id:3,  name:'Corona Extra',         size:'355ml', price:6.99,  oldPrice:8.99, image:'🍺', category:'destaque', promo:true,  blockedDates:[] },
+            { id:4,  name:'Budweiser',            size:'350ml', price:4.49,  oldPrice:5.99, image:'🍺', category:'destaque', promo:true,  blockedDates:[] },
+            { id:5,  name:'Skol Lata',            size:'350ml', price:3.49,  oldPrice:4.99, image:'🍺', category:'destaque', promo:true,  blockedDates:[] },
+            { id:6,  name:'Brahma Duplo Malte',   size:'350ml', price:3.99,  oldPrice:5.49, image:'🍺', category:'destaque', promo:true,  blockedDates:[] },
+            { id:7,  name:'Coca-Cola Lata',       size:'350ml', price:3.99,  oldPrice:5.49, image:'🥤', category:'promocao', promo:true,  blockedDates:[] },
+            { id:8,  name:'Guaraná Antarctica',   size:'2L',    price:7.99,  oldPrice:9.99, image:'🥤', category:'promocao', promo:true,  blockedDates:[] },
+            { id:9,  name:'Pepsi Twist',          size:'2L',    price:6.99,  oldPrice:8.99, image:'🥤', category:'promocao', promo:true,  blockedDates:[] },
+            { id:10, name:'Fanta Laranja',        size:'2L',    price:6.49,  oldPrice:8.49, image:'🥤', category:'promocao', promo:true,  blockedDates:[] },
+            { id:11, name:'Sprite Lata',          size:'350ml', price:3.49,  oldPrice:4.99, image:'🥤', category:'promocao', promo:true,  blockedDates:[] },
+            { id:12, name:'Schweppes Citrus',     size:'350ml', price:4.99,  oldPrice:6.49, image:'🥤', category:'promocao', promo:true,  blockedDates:[] },
+            { id:13, name:'Água Mineral',         size:'500ml', price:2.49,  image:'💧',   category:'outros',   promo:false, blockedDates:[] },
+            { id:14, name:'Suco Del Valle',       size:'1L',    price:8.99,  image:'🧃',   category:'outros',   promo:false, blockedDates:[] },
+            { id:15, name:'Red Bull',             size:'250ml', price:11.99, image:'🔋',   category:'outros',   promo:false, blockedDates:[] },
+            { id:16, name:'Monster Energy',       size:'473ml', price:12.99, image:'⚡',   category:'outros',   promo:false, blockedDates:[] },
+            { id:17, name:'Água de Coco',         size:'1L',    price:7.49,  image:'🥥',   category:'outros',   promo:false, blockedDates:[] },
+            { id:18, name:'Chá Leão',             size:'300ml', price:4.49,  image:'🍵',   category:'outros',   promo:false, blockedDates:[] },
+            { id:19, name:'Gatorade',             size:'500ml', price:6.99,  image:'⚡',   category:'outros',   promo:false, blockedDates:[] },
+            { id:20, name:'H2OH! Limoneto',       size:'500ml', price:4.99,  image:'🍋',   category:'outros',   promo:false, blockedDates:[] },
+            { id:21, name:'Máquina de Chope 1',   size:'',      price:350.00, image:'🍺',  category:'maquina',  promo:false, stock:2, blockedDates:['2026-02-17','2026-02-20','2026-02-28'] },
+            { id:22, name:'Máquina de Chope 2',   size:'',      price:350.00, image:'🍺',  category:'maquina',  promo:false, stock:2, blockedDates:[] },
+        ];
+        renderProducts();
+        console.warn('[Villa Alemã] Modo fallback ativo.');
+    }
+
+    // ================================================================
+    // RENDERIZAÇÃO DE PRODUTOS — mantém IDs originais
+    // ================================================================
+    function renderProducts() {
+        const featured  = products.filter(p => p.category === 'destaque');
+        const promo     = products.filter(p => p.category === 'promocao');
+        const other     = products.filter(p => p.category === 'outros');
+        const machines  = products.filter(p => p.category === 'maquina');
+
+        document.getElementById('featuredProducts').innerHTML = featured.map(createProductCard).join('');
+        document.getElementById('promoProducts').innerHTML    = promo.map(createProductCard).join('');
+        document.getElementById('otherProducts').innerHTML    = other.map(createProductCard).join('');
+
+        if (machines.length > 0) {
+            document.getElementById('machinesSection').style.display = '';
+            document.getElementById('machineProducts').innerHTML = machines.map(createProductCard).join('');
+        }
+    }
+
+    // ================================================================
+    // CARD DE PRODUTO — preserva HTML/classes do original +
+    //                   injeta campo de data apenas para máquinas
+    // ================================================================
+    function createProductCard(product) {
+        const cartItem = cart.find(item => item.id === product.id);
+        const quantity = cartItem ? cartItem.quantity : 0;
+        const stock    = product.stock != null ? product.stock : 99;
+        const soldOut  = stock <= 0;
+
+        // imagem: URL real ou emoji/texto
+        const imgHTML = isURL(product.image)
+            ? `<img class="product-image" src="${product.image}" alt="${product.name}"
+                    onerror="this.style.display='none';this.nextSibling.style.display='block'">`
+              + `<div class="product-image" style="font-size:64px;display:none;">${product.image}</div>`
+            : `<div class="product-image" style="font-size:64px;">${product.image || '🛒'}</div>`;
+
+        // campo de data apenas para máquinas
+        const dateHTML = product.category === 'maquina'
+            ? `<div class="va-date-wrap" id="vaDateWrap${product.id}">
+                   <div class="va-date-trigger" id="vaDateTrig${product.id}"
+                        onclick="vaToggleCal(${product.id}, event)">
+                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                           <rect x="3" y="4" width="18" height="18" rx="2"/>
+                           <line x1="16" y1="2" x2="16" y2="6"/>
+                           <line x1="8"  y1="2" x2="8"  y2="6"/>
+                           <line x1="3"  y1="10" x2="21" y2="10"/>
+                       </svg>
+                       <span id="vaDateText${product.id}">Data / reserva</span>
+                   </div>
+                   <div class="va-calendar" id="vaCal${product.id}"></div>
+               </div>`
+            : '';
+
+        // controles de quantidade ou "Adicionar"
+        const ctrlHTML = soldOut
+            ? `<div class="va-unavailable">Indisponível</div>`
+            : `<button class="add-button" id="addBtn${product.id}"
+                       onclick="addToCart(${product.id})"
+                       style="${quantity > 0 ? 'display:none;' : ''}">
+                   Adicionar
+               </button>
+               <div class="quantity-controls ${quantity > 0 ? 'active' : ''}" id="qtyControls${product.id}">
+                   <button class="qty-btn" onclick="decreaseQuantity(${product.id})">−</button>
+                   <span class="qty-display" id="qty${product.id}">${quantity}</span>
+                   <button class="qty-btn" onclick="increaseQuantity(${product.id})">+</button>
+               </div>`;
+
+        return `
+            <div class="product-card">
+                ${product.promo ? '<div class="promo-badge">PROMOÇÃO</div>' : ''}
+                ${imgHTML}
+                <div class="product-name">${product.name}</div>
+                ${product.size ? `<div class="product-size">${product.size}</div>` : ''}
+                <div class="product-prices">
+                    ${product.oldPrice ? `<div class="old-price">R$ ${product.oldPrice.toFixed(2)}</div>` : ''}
+                    <div class="current-price">R$ ${product.price.toFixed(2)}</div>
+                </div>
+                ${dateHTML}
+                ${ctrlHTML}
+            </div>`;
+    }
+
+    // ================================================================
+    // FUNÇÕES ORIGINAIS — preservadas, checkout() substituído
+    // ================================================================
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+
+        // máquina exige ao menos uma data
+        if (product.category === 'maquina') {
+            const dates = VA.cal[productId]?.selectedDates || [];
+            if (dates.length === 0) {
+                const trig = document.getElementById(`vaDateTrig${productId}`);
+                if (trig) {
+                    trig.classList.add('error');
+                    setTimeout(() => trig.classList.remove('error'), 600);
+                    vaToggleCal(productId, null);
+                }
+                showToast('Selecione pelo menos uma data de reserva');
+                return;
+            }
+        }
+
+        // verifica estoque
+        const stock  = product.stock != null ? product.stock : 99;
+        const inCart = cart.filter(i => i.id === productId).reduce((s,i) => s + i.quantity, 0);
+        if (inCart >= stock) { showToast('Estoque esgotado'); return; }
+
+        const reserveDates = product.category === 'maquina'
+            ? [...(VA.cal[productId]?.selectedDates || [])]
+            : null;
+
+        // chave única: id + datas serializadas
+        const datesKey = reserveDates ? reserveDates.join(',') : '';
+        const existing = cart.find(item => item.id === productId && item._datesKey === datesKey);
+
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push({ ...product, quantity: 1, reserveDates, _datesKey: datesKey });
+        }
+
+        updateUI(productId);
+        updateCartBadge();
+        showToast('Produto adicionado ao carrinho!');
+    }
+
+    function increaseQuantity(productId) {
+        const cartItem = cart.find(item => item.id === productId);
+        if (!cartItem) return;
+        const product = products.find(p => p.id === productId);
+        const stock   = product?.stock != null ? product.stock : 99;
+        if (cartItem.quantity >= stock) { showToast('Limite de estoque atingido'); return; }
+        cartItem.quantity++;
+        updateUI(productId);
+        updateCartBadge();
+    }
+
+    function decreaseQuantity(productId) {
+        const cartItem = cart.find(item => item.id === productId);
+        if (!cartItem) return;
+        cartItem.quantity--;
+        if (cartItem.quantity === 0) cart = cart.filter(item => item.id !== productId);
+        updateUI(productId);
+        updateCartBadge();
+    }
+
+    function updateUI(productId) {
+        const cartItem = cart.find(item => item.id === productId);
+        const quantity = cartItem ? cartItem.quantity : 0;
+        const addBtn     = document.getElementById(`addBtn${productId}`);
+        const qtyControls= document.getElementById(`qtyControls${productId}`);
+        const qtyDisplay = document.getElementById(`qty${productId}`);
+        if (addBtn && qtyControls && qtyDisplay) {
+            if (quantity > 0) {
+                addBtn.style.display = 'none';
+                qtyControls.classList.add('active');
+                qtyDisplay.textContent = quantity;
+            } else {
+                addBtn.style.display = 'block';
+                qtyControls.classList.remove('active');
+            }
+        }
+        renderCart();
+    }
+
+    function updateCartBadge() {
+        const total = cart.reduce((s, i) => s + i.quantity, 0);
+        document.getElementById('cartBadge').textContent = total;
+    }
+
+    function toggleCart() {
+        const modal = document.getElementById('cartModal');
+        modal.classList.toggle('active');
+        if (modal.classList.contains('active')) renderCart();
+    }
+
+    function closeCartOnBackdrop(event) {
+        if (event.target.id === 'cartModal') toggleCart();
+    }
+
+    function renderCart() {
+        const cartItemsDiv = document.getElementById('cartItems');
+        const cartSummary  = document.getElementById('cartSummary');
+        if (cart.length === 0) {
+            cartItemsDiv.innerHTML = `
+                <div class="empty-cart">
+                    <div class="empty-cart-icon">🛒</div>
+                    <h3>Seu carrinho está vazio</h3>
+                    <p>Adicione produtos para continuar</p>
+                </div>`;
+            cartSummary.style.display = 'none';
+            return;
+        }
+        cartItemsDiv.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <div class="cart-item-image" style="font-size:48px;">${item.image}</div>
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
+                    ${item.reserveDates && item.reserveDates.length > 0
+                        ? `<div style="font-size:12px;color:#888;margin-top:3px;">📅 ${item.reserveDates.map(fmtDate).join(', ')}</div>`
+                        : ''}
+                    <div style="margin-top:8px;">
+                        <div class="quantity-controls active" style="width:auto;display:inline-flex;">
+                            <button class="qty-btn" onclick="decreaseQuantity(${item.id})">−</button>
+                            <span class="qty-display" style="margin:0 10px;">${item.quantity}</span>
+                            <button class="qty-btn" onclick="increaseQuantity(${item.id})">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`).join('');
+
+        const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+        const delivery = subtotal >= 50 ? 0 : 10;
+        const total    = subtotal + delivery;
+
+        document.getElementById('subtotal').textContent = fmtBRL(subtotal);
+        document.getElementById('delivery').textContent = delivery === 0 ? 'GRÁTIS' : fmtBRL(delivery);
+        document.getElementById('total').textContent    = fmtBRL(total);
+        cartSummary.style.display = 'block';
+    }
+
+    // ================================================================
+    // CHECKOUT → WHATSAPP (substitui o alert() original)
+    // ================================================================
+    function checkout() {
+        if (cart.length === 0) { showToast('Adicione produtos ao carrinho'); return; }
+
+        const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+        const delivery = subtotal >= 50 ? 0 : 10;
+        const total    = subtotal + delivery;
+
+        let msg = '🛒 *PEDIDO — Villa Alemã™*\n\n';
+        if (VA.user.name) msg += `👤 *Cliente:* ${VA.user.name}\n`;
+        if (VA.user.city) msg += `📍 *Cidade:* ${VA.user.city}\n`;
+        if (VA.user.name || VA.user.city) msg += '\n';
+
+        msg += '*Itens:*\n';
+        cart.forEach(item => {
+            msg += `• ${item.name}`;
+            if (item.size) msg += ` ${item.size}`;
+            msg += ` — x${item.quantity} — ${fmtBRL(item.price * item.quantity)}`;
+            if (item.reserveDates && item.reserveDates.length > 0) {
+                msg += ` (Reservas: ${item.reserveDates.map(fmtDate).join(', ')})`;
+            }
+            msg += '\n';
+        });
+
+        msg += `\n📦 *Subtotal:* ${fmtBRL(subtotal)}`;
+        msg += `\n🚚 *Entrega:* ${delivery === 0 ? 'GRÁTIS' : fmtBRL(delivery)}`;
+        msg += `\n💰 *Total: ${fmtBRL(total)}*`;
+
+        window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // ================================================================
+    // BUSCA (original — preservada)
+    // ================================================================
+    function searchProducts() {
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        if (!term) { renderProducts(); return; }
+
+        const filtered = products.filter(p =>
+            p.name.toLowerCase().includes(term) || p.category.toLowerCase().includes(term)
+        );
+
+        if (!filtered.length) {
+            document.getElementById('mainContent').innerHTML = `
+                <div style="text-align:center;padding:60px 20px;color:#555;">
+                    <div style="font-size:64px;margin-bottom:20px;">🔍</div>
+                    <h3>Nenhum produto encontrado</h3>
+                    <p>Tente buscar por outro termo</p>
+                </div>`;
+            return;
+        }
+
+        document.getElementById('mainContent').innerHTML = `
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Resultados da busca</h2>
+                </div>
+                <div class="products-grid">
+                    ${filtered.map(createProductCard).join('')}
+                </div>
+            </div>`;
+    }
+
+    // ================================================================
+    // TOAST (original — preservado)
+    // ================================================================
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position:fixed;bottom:100px;left:50%;
+            transform:translateX(-50%);
+            background:#1a1a1a;color:white;
+            padding:12px 24px;border-radius:25px;
+            font-size:14px;z-index:9999;
+            animation:vaSlideUp 0.3s ease-out;`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.animation = 'vaSlideDown 0.3s ease-out';
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
+    }
+
+    // ================================================================
+    // CALENDÁRIO INDIVIDUAL (categoria maquina)
+    // ================================================================
+    function vaToggleCal(productId, event) {
+        if (event) { event.stopPropagation(); event.preventDefault(); }
+        const calEl  = document.getElementById(`vaCal${productId}`);
+        const wrapEl = document.getElementById(`vaDateWrap${productId}`);
+        if (!calEl) return;
+        const wasOpen = calEl.classList.contains('open');
+        vaCloseAllCals();
+        if (wasOpen) return;
+        if (!VA.cal[productId]) {
+            const n = new Date();
+            VA.cal[productId] = { year: n.getFullYear(), month: n.getMonth(), selectedDates: [] };
+        }
+        vaRenderCal(productId);
+        calEl.classList.add('open');
+        if (wrapEl) wrapEl.classList.add('cal-open');
+    }
+
+    function vaCloseAllCals() {
+        document.querySelectorAll('.va-calendar.open').forEach(el => el.classList.remove('open'));
+        document.querySelectorAll('.va-date-wrap.cal-open').forEach(el => el.classList.remove('cal-open'));
+    }
+
+    function vaRenderCal(productId) {
+        const calEl   = document.getElementById(`vaCal${productId}`);
+        const state   = VA.cal[productId];
+        const product = products.find(p => p.id == productId);
+        if (!calEl || !state || !product) return;
+
+        // garante array de datas selecionadas
+        if (!state.selectedDates) state.selectedDates = [];
+
+        const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                       'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        const DIAS  = ['D','S','T','Q','Q','S','S'];
+        const today = todayISO();
+        const { year, month } = state;
+        const first  = new Date(year, month, 1).getDay();
+        const total  = new Date(year, month + 1, 0).getDate();
+
+        let grid = DIAS.map(d => `<div class="va-cal-dname">${d}</div>`).join('');
+        for (let i = 0; i < first; i++) grid += `<div class="va-cal-day empty"></div>`;
+
+        for (let d = 1; d <= total; d++) {
+            const iso     = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            const blocked = (product.blockedDates || []).includes(iso);
+            const past    = iso < today;
+            const picked  = state.selectedDates.includes(iso);
+            const isToday = iso === today;
+            let cls = 'va-cal-day';
+            if (blocked)        cls += ' blocked';
+            else if (past)      cls += ' past';
+            if (picked)         cls += ' picked';
+            else if (isToday)   cls += ' today';
+            grid += `<div class="${cls}" data-iso="${iso}" data-pid="${productId}">${d}</div>`;
+        }
+
+        calEl.innerHTML = `
+            <div class="va-cal-head">
+                <button class="va-cal-nav" data-delta="-1" data-pid="${productId}">‹</button>
+                <span class="va-cal-title">${MESES[month]} ${year}</span>
+                <button class="va-cal-nav" data-delta="+1" data-pid="${productId}">›</button>
+            </div>
+            <div class="va-cal-grid">${grid}</div>
+            ${state.selectedDates.length > 0
+                ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0;font-size:11px;color:#00875F;line-height:1.6;">
+                       <b>Selecionadas:</b> ${state.selectedDates.map(fmtDate).join(', ')}
+                   </div>`
+                : ''}`;
+
+        // navegação mês — stopPropagation para não fechar o calendário
+        calEl.querySelectorAll('.va-cal-nav').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                const delta = parseInt(this.dataset.delta);
+                const s = VA.cal[this.dataset.pid];
+                s.month += delta;
+                if (s.month > 11) { s.month = 0; s.year++; }
+                if (s.month < 0)  { s.month = 11; s.year--; }
+                vaRenderCal(this.dataset.pid);
+            });
+        });
+
+        // clique nos dias — toggle de seleção
+        calEl.querySelectorAll('.va-cal-day:not(.blocked):not(.past):not(.empty)').forEach(function(el) {
+            el.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                const pid = this.dataset.pid;
+                const iso = this.dataset.iso;
+                const s   = VA.cal[pid];
+
+                // toggle: se já está, remove; senão adiciona
+                const idx = s.selectedDates.indexOf(iso);
+                if (idx >= 0) {
+                    s.selectedDates.splice(idx, 1);
+                } else {
+                    s.selectedDates.push(iso);
+                    s.selectedDates.sort();
+                }
+
+                vaRenderCal(pid);
+                vaUpdateTrigger(pid);
+            });
+        });
+    }
+
+    // atualiza o campo trigger com as datas selecionadas
+    function vaUpdateTrigger(productId) {
+        const s    = VA.cal[productId];
+        const trig = document.getElementById(`vaDateTrig${productId}`);
+        const text = document.getElementById(`vaDateText${productId}`);
+        if (!s || !text || !trig) return;
+
+        if (s.selectedDates && s.selectedDates.length > 0) {
+            text.textContent = s.selectedDates.map(fmtDate).join(', ');
+            trig.classList.add('picked');
+        } else {
+            text.textContent = 'Data / reserva';
+            trig.classList.remove('picked');
+        }
+    }
+
+    // fecha calendários somente ao clicar FORA de qualquer .va-date-wrap
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.va-date-wrap')) vaCloseAllCals();
+    });
+
+    // ================================================================
+    // ANIMAÇÕES (original)
+    // ================================================================
+    const vaStyle = document.createElement('style');
+    vaStyle.textContent = `
+        @keyframes vaSlideUp {
+            from { transform:translateX(-50%) translateY(100px); opacity:0; }
+            to   { transform:translateX(-50%) translateY(0);     opacity:1; }
+        }
+        @keyframes vaSlideDown {
+            from { transform:translateX(-50%) translateY(0);     opacity:1; }
+            to   { transform:translateX(-50%) translateY(100px); opacity:0; }
+        }`;
+    document.head.appendChild(vaStyle);
+
+    // ================================================================
+    // INICIALIZAÇÃO
+    // ================================================================
+    function init() {
+        vaInitAgeGate();
+        vaInitProfile();
+        updateCartBadge();
+
+        // tenta cache enquanto busca DOCX
+        try {
+            const c = localStorage.getItem('va_cache');
+            if (c) { products = JSON.parse(c); renderProducts(); }
+        } catch {}
+
+        vaLoadDocx();
+    }
+
+    init();
+    </script>
+</body>
+</html>
